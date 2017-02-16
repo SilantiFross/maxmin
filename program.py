@@ -7,35 +7,36 @@ import numpy as npr
 import drawer
 import helper
 
-def calc_eucl_dist(point_one, point_two):
-    return math.sqrt((point_two[0]-point_one[0])**2 + (point_two[1]-point_one[1])**2)
+def euclidean_distance(first_point, second_point):
+    return math.sqrt((second_point[0]-first_point[0])**2 + (second_point[1]-first_point[1])**2)
 
-def find_max_distant_point(center, points):
+def finding_furthest_point_from_center(center, points):
     max_distance = 0
     for point in points:
-        distance = calc_eucl_dist(center, point)
+        distance = euclidean_distance(center, point)
         if distance > max_distance:
             max_distance = distance
-            distant_point = point
-    return distant_point
+            farthest_point = point
+    return farthest_point
 
-def find_max_distant_point_in_center(centers, points_in_clusters):
+def find_max_distance_point_in_center(centers, points_in_clusters):
     max_distances = []
     for center in centers:
         max_distance = 0
         for point_in_cluster in points_in_clusters[centers.index(center)]:
-            distance = calc_eucl_dist(center, point_in_cluster)
+            distance = euclidean_distance(center, point_in_cluster)
             if distance > max_distance:
                 max_distance = distance
         max_distances.append(max_distance)
-    return max(max_distances), max_distances.index(max(max_distances))
+    max_distance = max(max_distances)
+    return max_distance, max_distances.index(max_distance)
 
 def finding_average_distance_between_centers(centers):
     distance = 0
-    len_of_centers = len(centers)
-    for index in range(len_of_centers - 1):
-        distance += calc_eucl_dist(centers[index], centers[index + 1])
-    return distance / len_of_centers
+    number_of_centers = len(centers)
+    for index in range(number_of_centers - 1):
+        distance += euclidean_distance(centers[index], centers[index + 1])
+    return distance / number_of_centers
 
 def create_empty_list(dimension):
     array = []
@@ -48,7 +49,7 @@ def search_center_for_points(centers, points):
     for point in points:
         prev_distance = 1000
         for center in centers:
-            curr_distance = calc_eucl_dist(center, point)
+            curr_distance = euclidean_distance(center, point)
             if curr_distance < prev_distance:
                 prev_distance = curr_distance
                 index_of_cluster = centers.index(center)
@@ -87,16 +88,16 @@ if __name__ == "__main__":
 
     centers = []
     add_point_to_centers(centers, POINTS[0])
-    add_point_to_centers(centers, find_max_distant_point(centers[0], POINTS))
+    add_point_to_centers(centers, finding_furthest_point_from_center(centers[0], POINTS))
     points_in_clusters = search_center_for_points(centers, POINTS)
 
-    max_distance_from_center, index_of_center = find_max_distant_point_in_center(centers, points_in_clusters)
+    max_distance_from_center, index_of_center = find_max_distance_point_in_center(centers, points_in_clusters)
     average_distance = finding_average_distance_between_centers(centers)
 
     while max_distance_from_center > average_distance / 2:
-        add_point_to_centers(centers, find_max_distant_point(centers[index_of_center], points_in_clusters[index_of_center]))
+        add_point_to_centers(centers, finding_furthest_point_from_center(centers[index_of_center], points_in_clusters[index_of_center]))
         points_in_clusters = search_center_for_points(centers, POINTS)
-        max_distance_from_center, index_of_center = find_max_distant_point_in_center(centers, points_in_clusters)
+        max_distance_from_center, index_of_center = find_max_distance_point_in_center(centers, points_in_clusters)
         average_distance = finding_average_distance_between_centers(centers)
 
     points_in_clusters_x_y = create_points_x_y(points_in_clusters, len(centers))
