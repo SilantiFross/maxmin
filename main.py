@@ -2,7 +2,7 @@
 import math
 import sys
 
-import numpy as npr
+import numpy as np
 
 import drawer
 import helper
@@ -82,7 +82,7 @@ def create_points_x_y(points_in_clusters, number_of_clusters):
 
 if __name__ == "__main__":
     COUNT_OF_IMAGES = helper.read_data_command_line(sys.argv[1:])
-    MRX_OF_COORDS_IMAGES = npr.random.random_sample((2, COUNT_OF_IMAGES))
+    MRX_OF_COORDS_IMAGES = np.random.random_sample((2, COUNT_OF_IMAGES))
 
     POINTS = create_list_of_points(MRX_OF_COORDS_IMAGES)
 
