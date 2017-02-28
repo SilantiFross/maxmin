@@ -80,9 +80,19 @@ def create_points_x_y(points_in_clusters, number_of_clusters):
             array[points_in_clusters.index(points)][1].append(point[1])
     return array
 
+def save_ndarray(namefile, points):
+    np.savetxt(namefile, points)
+
+def save_num_centers(namefile, num):
+    file = open(namefile, 'w')
+    file.write(num)
+    file.close()
+
 if __name__ == "__main__":
     COUNT_OF_IMAGES = helper.read_data_command_line(sys.argv[1:])
     MRX_OF_COORDS_IMAGES = np.random.random_sample((2, COUNT_OF_IMAGES))
+
+    save_ndarray('../coords.txt', MRX_OF_COORDS_IMAGES)
 
     POINTS = create_list_of_points(MRX_OF_COORDS_IMAGES)
 
@@ -104,5 +114,7 @@ if __name__ == "__main__":
 
     print('max distance: ', max_distance_from_center)
     print('average distance: ', average_distance)
+
+    save_num_centers('../num_centers.txt', str(len(centers)))
 
     drawer.draw_graph(centers, points_in_clusters_x_y)
