@@ -7,6 +7,7 @@ import numpy as np
 import drawer
 import helper
 
+
 def euclidean_distance(first_point, second_point):
     return math.sqrt((second_point[0]-first_point[0])**2 + (second_point[1]-first_point[1])**2)
 
@@ -80,9 +81,6 @@ def create_points_x_y(points_in_clusters, number_of_clusters):
             array[points_in_clusters.index(points)][1].append(point[1])
     return array
 
-def save_ndarray(namefile, points):
-    np.savetxt(namefile, points)
-
 if __name__ == "__main__":
     COUNT_OF_IMAGES = helper.read_data_command_line(sys.argv[1:])
     MRX_OF_COORDS_IMAGES = np.random.random_sample((2, COUNT_OF_IMAGES))
@@ -103,8 +101,8 @@ if __name__ == "__main__":
         max_distance_from_center, index_of_center = find_max_distance_point_in_center(centers, points_in_clusters)
         average_distance = finding_average_distance_between_centers(centers)
 
-    save_ndarray('../coords.txt', MRX_OF_COORDS_IMAGES)
-    save_ndarray('../centers.txt', np.array(helper.conversation_to_matrix(centers)))
+    helper.save_ndarray('../coords.txt', MRX_OF_COORDS_IMAGES)
+    helper.save_ndarray('../centers.txt', np.array(helper.conversation_to_matrix(centers)))
 
     points_in_clusters_x_y = create_points_x_y(points_in_clusters, len(centers))
     drawer.draw_graph(centers, points_in_clusters_x_y)

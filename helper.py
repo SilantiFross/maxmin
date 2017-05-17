@@ -1,6 +1,9 @@
 
-import sys
 import getopt
+import sys
+
+import numpy as np
+
 
 def read_data_command_line(argv):
     count_of_images = 1000
@@ -23,3 +26,6 @@ def conversation_to_matrix(points):
         matrix[0].append(point[0])
         matrix[1].append(point[1])
     return matrix
+
+def save_ndarray(namefile, points):
+    np.savetxt(namefile, points)
